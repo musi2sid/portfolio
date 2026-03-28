@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Musif | Senior IT Engineer | CLOUD, CYBERSECURITY & AI ENTHUSIAST</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-green: #39FF14;
+            --terminal-bg: #0d1117;
+            --terminal-card: #161b22;
+            --archive-blue: #60a5fa;
+            --legacy-gray: #9ca3af;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--terminal-bg);
+            color: #c9d1d9;
+            overflow-x: hidden;
+        }
+        
+        .header-font { font-family: 'Audiowide', sans-serif; }
+        .mono { font-family: 'Fira Code', monospace; }
+        
+        .terminal-glow { 
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.05); 
+            border: 1px solid rgba(57, 255, 20, 0.15);
+        }
+
+        /* Scanline & CRT Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(57, 255, 20, 0.03));
+            z-index: 9999;
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        .scan-bar {
+            height: 2px;
+            background: var(--neon-green);
+            box-shadow: 0 0 15px var(--neon-green);
+            width: 100%;
+            position: absolute;
+            z-index: 10;
+            animation: scan 6s linear infinite;
+            opacity: 0.5;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: var(--terminal-bg); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { 
+            background: #30363d; 
+            border-radius: 10px; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+        /* Typing effect cursor */
+        .typing::after {
+            content: '_';
+            animation: blink 1s infinite;
+            color: var(--neon-green);
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* System Module Base Transitions */
+        .module-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .module-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered Element Loading */
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            /* Handle smooth return for hover effects seamlessly */
+            transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+        .stagger-item.loaded {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Technical Falling Block Animation */
+        .tech-drop {
+            transform: translateY(-80px) !important;
+            opacity: 0 !important;
+            transition: none !important;
+        }
+        .tech-drop.loaded {
+            animation: techFall 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes techFall {
+            0% {
+                opacity: 0;
+                transform: translateY(-80px);
+                border-color: var(--neon-green);
+                box-shadow: 0 10px 20px rgba(57, 255, 20, 0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(10px);
+                border-color: var(--neon-green);
+                box-shadow: 0 -5px 15px rgba(57, 255, 20, 0.2);
+            }
+            75% {
+                transform: translateY(-5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                border-color: #1f2937; /* Tailwind gray-800 */
+                box-shadow: none;
+            }
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .live-status {
+            background-color: var(--neon-green);
+            box-shadow: 0 0 8px var(--neon-green);
+            animation: pulse-active 2s infinite;
+        }
+
+        @keyframes pulse-active {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.7; }
+        }
+
+        .grid-bg {
+            background-image: linear-gradient(rgba(57, 255, 20, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(57, 255, 20, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .skill-bar-inner {
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.1, 0.5, 0.2, 1);
+        }
+
+        /* Enhanced Interactive Card with Dynamic Theming */
+        .interactive-card {
+            position: relative;
+            overflow: hidden;
+            /* Default Theme */
+            --card-color: var(--neon-green);
+            --card-shadow: rgba(57, 255, 20, 0.3);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+        }
+        
+        /* Color Themes */
+        .interactive-card.theme-blue { --card-color: #60a5fa; --card-shadow: rgba(96, 165, 250, 0.3); }
+        .interactive-card.theme-yellow { --card-color: #eab308; --card-shadow: rgba(234, 179, 8, 0.3); }
+        .interactive-card.theme-purple { --card-color: #a855f7; --card-shadow: rgba(168, 85, 247, 0.3); }
+        .interactive-card.theme-orange { --card-color: #f97316; --card-shadow: rgba(249, 115, 22, 0.3); }
+        .interactive-card.theme-cyan { --card-color: #22d3ee; --card-shadow: rgba(34, 211, 238, 0.3); }
+
+        .interactive-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--card-color) !important;
+            box-shadow: 0 10px 30px -10px var(--card-shadow) !important;
+            background: rgba(22, 27, 34, 0.8) !important;
+            z-index: 10;
+        }
+        
+        .interactive-card .corner-accents {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .interactive-card:hover .corner-accents {
+            opacity: 1;
+        }
+        .interactive-card:hover h4, 
+        .interactive-card:hover .hero-tile-value {
+            text-shadow: 0 0 8px var(--card-color);
+            color: #fff;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; color: black; }
+            .terminal-glow { box-shadow: none; border: 1px solid #ccc; }
+            section { border-bottom: 1px solid #eee; }
+        }
+    </style>
+</head>
+<body class="custom-scrollbar overflow-x-hidden grid-bg">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-[#0d1117]/90 backdrop-blur-md border-b border-gray-800 px-6 py-4 no-print">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="mono text-[#39FF14] font-bold text-lg tracking-tighter flex items-center gap-2 header-font">
+                <span class="w-2 h-2 bg-[#39FF14] rounded-full animate-pulse"></span>
+                MUSIF_SYS_v2.5
+            </div>
+            <div class="hidden md:flex space-x-6 mono text-[10px] uppercase tracking-[0.2em]">
+                <a href="#bio-scan" class="hover:text-[#39FF14] transition-colors">00_Bio</a>
+                <a href="#experience" class="hover:text-[#39FF14] transition-colors">01_Logs</a>
+                <a href="#skills" class="hover:text-[#39FF14] transition-colors">02_Reg</a>
+                <a href="#credentials" class="hover:text-[#39FF14] transition-colors">03_Vault</a>
+                <a href="#attributes" class="hover:text-[#39FF14] transition-colors">04_Core</a>
+                <a href="#neural-load" class="hover:text-[#39FF14] transition-colors">05_Neural</a>
+                <a href="#digital-twin" class="hover:text-[#39FF14] transition-colors">06_Twin</a>
+                <a href="#contact" class="px-3 py-1 border border-[#39FF14]/30 hover:bg-[#39FF14] hover:text-black transition-all">Ping</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Biometric Scan Section -->
+    <section id="bio-scan" class="pt-24 pb-12 border-b border-gray-900/50">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- ID Card Visual -->
+                <div class="lg:col-span-5 relative group">
+                    <div class="relative w-full max-sm mx-auto aspect-[3/4] border border-gray-800 bg-[#161b22] overflow-hidden terminal-glow">
+                        <div class="scan-bar"></div>
+                        <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#39FF14] z-20"></div>
+                        <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#39FF14] z-20"></div>
+
+                        <div class="w-full h-full bg-[#0d1117] flex items-center justify-center relative">
+                            <img src="https://lh3.googleusercontent.com/d/19IbxYSulk84Myg2Wj96vSqSplxTIZMFx" 
+                                 alt="Mohammed Musif" 
+                                 class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="hidden absolute inset-0 bg-gray-900 flex-col items-center justify-center text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <p class="mono text-[10px] mt-2">IMG_NOT_FOUND</p>
+                            </div>
+                            
+                            <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black via-black/20 to-transparent pointer-events-none">
+                                <div class="mono text-[10px] text-[#39FF14] bg-black/80 p-3 border border-[#39FF14]/20 backdrop-blur-sm space-y-1">
+                                    <p class="bio-scan-line font-bold border-b border-[#39FF14]/20 pb-1 mb-1 min-h-[1.5em]">FILE: MOHAMMED_MUSIF.SYS</p>
+                                    <p class="bio-scan-line min-h-[1.5em]">02-06-1989 | INDIAN | PPT: U0731471</p>
+                                    <p class="bio-scan-line min-h-[1.5em]">MARRIED | EMPLOYMENT VISA</p>
+                                    <p class="bio-scan-line min-h-[1.5em]">NODE: ABU DHABI, UAE</p>
+                                    <p class="bio-scan-line animate-pulse min-h-[1.5em]">STATUS: AUTHENTICATED</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terminal Data -->
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="mono">
+                        <p class="text-[#39FF14] text-sm mb-2 opacity-80" id="typewriter-prefix">> INITIALIZING_IDENTITY_SCAN...</p>
+                        <h1 id="hero-name" class="text-5xl md:text-7xl font-bold text-white tracking-tighter mb-4 header-font leading-none uppercase min-h-[1.1em]"></h1>
+                        <h2 id="hero-title" class="text-xl md:text-2xl text-[#39FF14] font-bold tracking-tight mb-6 uppercase min-h-[1.5em]"></h2>
+                        <p id="hero-bio" class="text-base md:text-lg text-gray-400 font-light max-w-2xl leading-relaxed min-h-[4.5em]"></p>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mono text-[11px]" id="hero-stats">
+                        <div class="bg-[#090c10] p-4 border border-gray-800 interactive-card stagger-item">
+                            <div class="corner-accents">
+                                <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                                <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-1 relative z-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/><circle cx="12" cy="12" r="3"/></svg>
+                                <p class="text-gray-500 tracking-widest uppercase text-[9px]">Sys_Status</p>
+                            </div>
+                            <p class="text-[#39FF14] animate-pulse flex items-center gap-2 min-h-[1.5em] relative z-10">
+                                <span class="w-1.5 h-1.5 bg-[#39FF14] rounded-full"></span> 
+                                <span class="hero-tile-value transition-all duration-300" data-text="ACTIVE_DEPLOY"></span>
+                            </p>
+                        </div>
+                        <div class="bg-[#090c10] p-4 border border-gray-800 interactive-card stagger-item">
+                            <div class="corner-accents">
+                                <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                                <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-1 relative z-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                <p class="text-gray-500 tracking-widest uppercase text-[9px]">Core_Runtime</p>
+                            </div>
+                            <p class="text-[#39FF14] min-h-[1.5em] hero-tile-value transition-all duration-300 relative z-10" data-text="14.0.0_YEARS"></p>
+                        </div>
+                        <a href="Mohammed Musif - Senior IT Engineer.pdf" target="_blank" rel="noopener noreferrer" class="bg-[#090c10] p-4 border border-gray-800 flex flex-col justify-between interactive-card stagger-item cursor-pointer block hover:border-[#39FF14]/50 group">
+                            <div class="corner-accents">
+                                <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                                <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-1 relative z-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                                <p class="text-gray-500 tracking-widest uppercase text-[9px]">Edu_Bachelors</p>
+                            </div>
+                            <p class="text-[#39FF14] min-h-[1.5em] hero-tile-value transition-all duration-300 relative z-10 group-hover:underline underline-offset-2" data-text="B.E_COMP_SCI"></p>
+                        </a>
+                        
+                        <div class="bg-[#090c10] p-4 border border-gray-800 interactive-card stagger-item">
+                            <div class="corner-accents">
+                                <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                                <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-1 relative z-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                <p class="text-gray-500 tracking-widest uppercase text-[9px]">Node_Loc</p>
+                            </div>
+                            <p class="text-[#39FF14] min-h-[1.5em] hero-tile-value transition-all duration-300 relative z-10" data-text="UAE_REGION (AUH)"></p>
+                        </div>
+                        <a href="https://www.linkedin.com/in/mohammad-musif-90883231/" target="_blank" class="bg-[#090c10] p-4 border border-gray-800 interactive-card theme-blue flex flex-col justify-between stagger-item">
+                            <div class="corner-accents">
+                                <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                                <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-1 relative z-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                                <p class="text-gray-500 tracking-widest uppercase text-[9px]">Network_ID</p>
+                            </div>
+                            <p class="text-blue-400 underline underline-offset-4 min-h-[1.5em] hero-tile-value transition-all duration-300 relative z-10" data-text="LINKEDIN_EXT"></p>
+                        </a>
+                        <a href="https://drive.google.com/file/d/1OCYFHv_p7o53MnCgmBenAAlpkua8pnWc/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="bg-[#090c10] p-4 border border-gray-800 flex flex-col justify-between interactive-card stagger-item cursor-pointer block group">
+                            <div class="corner-accents">
+                                <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                                <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-1 relative z-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                <p class="text-gray-500 tracking-widest uppercase text-[9px]">Dossier_Extraction</p>
+                            </div>
+                            <p class="text-[#39FF14] flex items-center gap-2 min-h-[1.5em] relative z-10">
+                                <span class="group-hover:text-white group-hover:underline underline-offset-2 z-10 hero-tile-value transition-all duration-300" data-text="DOWNLOAD_CV_v2.5.PDF"></span>
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Logs -->
+    <section id="experience" class="py-24 bg-[#090c10]/50 relative module-section">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="flex items-center gap-4 mb-16">
+                <h3 class="mono text-[#39FF14] text-3xl uppercase font-bold tracking-tighter header-font type-trigger min-h-[1.2em]">01.System_Logs</h3>
+                <div class="h-[1px] flex-grow bg-gray-800/50"></div>
+            </div>
+
+            <div class="space-y-24">
+                <!-- MAPCO LLC -->
+                <div class="flex flex-col md:flex-row gap-8 stagger-item">
+                    <div class="md:w-1/4 mono">
+                        <p class="text-blue-400 font-bold text-sm uppercase tracking-widest flex items-center">
+                            2016 — <span class="text-[#39FF14] ml-2 flex items-center"><span class="status-dot live-status"></span>PRESENT</span>
+                        </p>
+                        <p class="text-gray-500 text-[10px] mt-2 uppercase tracking-tighter">REGION: ABU_DHABI_NODE</p>
+                    </div>
+                    <div class="md:w-3/4 border-l-2 border-gray-800/50 pl-8 relative">
+                        <div class="absolute w-3 h-3 bg-[#39FF14] rounded-full -left-[7.5px] top-1 shadow-[0_0_10px_#39FF14]"></div>
+                        <h4 class="text-3xl font-bold text-white mb-1 header-font">Sr. IT Engineer & Asst to Admin Manager</h4>
+                        <p class="text-[#39FF14] font-medium mb-8 mono uppercase">MAPCO LLC <span class="text-gray-600">| An MEP Contracting Co.</span></p>
+                        
+                        <div class="space-y-8">
+                            <div>
+                                <h5 class="mono text-[9px] text-blue-400 uppercase tracking-[0.3em] mb-4">// NETWORK_INFRASTRUCTURE_MANAGEMENT</h5>
+                                <ul class="space-y-3 text-sm text-gray-400 mono">
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Managed and maintained the IT infrastructure supporting 100+ staff and 600 laborers across multiple sites.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Administered and configured network hardware, including Unifi Dream Machine Pro, Dell SonicWALL router, Cisco switches and Unifi Access Points.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Oversaw structured cabling projects for site offices and performed advanced troubleshooting to resolve Local Area Network (LAN) issues.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Deployed NAS systems for backup and user access via mobile/web, managing permissions.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Installed CCTV systems in warehouses and harsh industrial environments, including high-temperature furnace areas.</span></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="mono text-[9px] text-blue-400 uppercase tracking-[0.3em] mb-4">// SYSTEM_SERVER_ADMINISTRATION</h5>
+                                <ul class="space-y-3 text-sm text-gray-400 mono">
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Managed Windows Server 2019 environments with Active Directory user, group, permission, and policy administration.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Oversaw company email domains, employee accounts, and comprehensive software/hardware management for desktops, servers, and office devices.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Managed the installation, configuration, and repair of software and hardware for all desktops, servers, plotters, photocopiers, and multifunction printers (MFPs).</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Installed and configured access control and web-based time & attendance systems (ZKT Biotime).</span></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="mono text-[9px] text-[#39FF14] uppercase tracking-[0.3em] mb-4">// TECHNICAL_SUPPORT_PROJECT_COORDINATION</h5>
+                                <ul class="space-y-3 text-sm text-gray-400 mono">
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Delivered remote and onsite technical support, leading complex issue resolution.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Acted as the ERP implementation coordinator, helping to facilitate the integration of new systems.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Managed all IT procurement, including the purchasing of hardware components and software licenses.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Assisted the Operations and Admin Manager with administrative duties, demonstrating operational flexibility and cross-departmental support.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SFJ technologies -->
+                <div class="flex flex-col md:flex-row gap-8 stagger-item">
+                    <div class="md:w-1/4 mono">
+                        <p class="text-blue-400 font-bold text-sm uppercase tracking-widest flex items-center">2012 — 2015</p>
+                        <p class="text-gray-500 text-[10px] mt-1 uppercase tracking-tighter">REGION: BANGALORE_NODE</p>
+                    </div>
+                    <div class="md:w-3/4 border-l-2 border-gray-800/50 pl-8 relative">
+                        <div class="absolute w-3 h-3 bg-blue-500 rounded-full -left-[7.5px] top-1"></div>
+                        <h4 class="text-2xl font-bold text-white mb-1 header-font">System Administrator</h4>
+                        <p class="text-[#39FF14] font-medium mb-8 mono uppercase">SFJ Technologies Pvt.Ltd <span class="text-gray-600">| IT Infrastructure Services</span></p>
+                        
+                        <div class="space-y-8">
+                            <div>
+                                <h5 class="mono text-[9px] text-blue-400 uppercase tracking-[0.3em] mb-4">// SYSTEM_NETWORK_ADMINISTRATION</h5>
+                                <ul class="space-y-3 text-sm text-gray-400 mono">
+                                    <li class="flex gap-2"><span class="text-blue-400">>></span> <span class="type-trigger">Managed office network for 150 users, including Cisco devices and Windows Server 2008 Active Directory.</span></li>
+                                    <li class="flex gap-2"><span class="text-blue-400">>></span> <span class="type-trigger">Installed, configured, and managed application software on Windows Desktops and Servers, including full administration of SAP B-One Server and Client environments.</span></li>
+                                    <li class="flex gap-2"><span class="text-blue-400">>></span> <span class="type-trigger">Created and managed Active Directory users, groups, permissions, and policies.</span></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="mono text-[9px] text-blue-400 uppercase tracking-[0.3em] mb-4">// TECHNICAL_SUPPORT_TROUBLESHOOTING</h5>
+                                <ul class="space-y-3 text-sm text-gray-400 mono">
+                                    <li class="flex gap-2"><span class="text-blue-400">>></span> <span class="type-trigger">Performed end-to-end network troubleshooting, including resolving LAN and internet connectivity issues, port enabling, and network cable crimping.</span></li>
+                                    <li class="flex gap-2"><span class="text-blue-400">>></span> <span class="type-trigger">Maintained and troubleshot LAN/internet connectivity, VoIP phones, and biometric systems (eSSL).</span></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="mono text-[9px] text-[#39FF14] uppercase tracking-[0.3em] mb-4">// KEY_ACCOMPLISHMENTS</h5>
+                                <ul class="space-y-3 text-sm text-gray-400 mono">
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Successfully installed and maintained the SAP B-One Server and Client, ensuring its stability and performance for all users.</span></li>
+                                    <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Independently resolved network issues, minimizing downtime and ensuring consistent connectivity.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Safas Internetworking -->
+                <div class="flex flex-col md:flex-row gap-8 stagger-item">
+                    <div class="md:w-1/4 mono">
+                        <p class="text-blue-400 font-bold text-sm uppercase tracking-widest flex items-center">2011 — 2012</p>
+                        <p class="text-gray-500 text-[10px] mt-1 uppercase tracking-tighter">REGION: BANGALORE_NODE</p>
+                    </div>
+                    <div class="md:w-3/4 border-l-2 border-gray-800/50 pl-8 relative">
+                        <div class="absolute w-3 h-3 bg-gray-500 rounded-full -left-[7.5px] top-1"></div>
+                        <h4 class="text-2xl font-bold text-white mb-1 header-font">Network Support Engineer</h4>
+                        <p class="text-[#39FF14] font-medium mb-8 mono uppercase">Safas Internetworking Technologies <span class="text-gray-600">| Network Solutions</span></p>
+                        
+                        <div class="space-y-8">
+                            <div>
+                                <h5 class="mono text-[9px] text-blue-400 uppercase tracking-[0.3em] mb-4">// JOB_PROFILE</h5>
+                                <ul class="space-y-3 text-sm text-gray-400 mono">
+                                    <li class="flex gap-2"><span class="text-gray-400">>></span> <span class="type-trigger">Installed and configured routers, switches, and firewalls for small to medium networks.</span></li>
+                                    <li class="flex gap-2"><span class="text-gray-400">>></span> <span class="type-trigger">Managed core infrastructure services including DNS, DHCP, file servers, VLANs, ACLs, and NAT.</span></li>
+                                    <li class="flex gap-2"><span class="text-gray-400">>></span> <span class="type-trigger">Installed application software across Windows desktop and server environments.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skill Registry -->
+    <section id="skills" class="py-24 module-section">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="flex items-center gap-4 mb-16">
+                <h3 class="mono text-[#39FF14] text-3xl uppercase font-bold tracking-tighter header-font type-trigger min-h-[1.2em]">02.Skill_Registry</h3>
+                <div class="h-[1px] flex-grow bg-gray-800/50"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Skill Card: Network Engineering -->
+                <div class="bg-[#161b22] p-6 border border-gray-800 terminal-glow group registry-card interactive-card stagger-item">
+                    <div class="corner-accents">
+                        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                    </div>
+                    <div class="flex justify-between items-start mb-6 relative z-10">
+                        <div class="p-2 bg-[#39FF14]/10 text-[#39FF14]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                        </div>
+                        <span class="mono text-[10px] text-gray-600 uppercase">MOD_NETWORK</span>
+                    </div>
+                    <h4 class="mono text-white text-sm mb-4 font-bold uppercase tracking-widest relative z-10 transition-all duration-300">Network Engineering & Admin</h4>
+                    <div class="space-y-2 mb-6 relative z-10">
+                        <div class="flex justify-between text-[10px] mono mb-1">
+                            <span>INFRA_ORCHESTRATION</span>
+                            <span class="text-[#39FF14]">96%</span>
+                        </div>
+                        <div class="h-1 bg-gray-800 w-full overflow-hidden">
+                            <div class="h-full bg-[#39FF14] skill-bar-inner" data-percent="96%"></div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-[11px] text-gray-500 mono relative z-10">
+                        <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Hardware: Installation, configuration, and troubleshooting of routers, switches, and firewalls for SMB networks.</span></li>
+                        <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Protocols & Services: Management of core network services including DNS, DHCP, and File Servers.</span></li>
+                        <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Switching & Routing: Config of VLANs, inter-VLAN routing, and efficient network segmentation.</span></li>
+                        <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Security: Implementation via access-control lists (ACLs), Firewall Rules, and NAT.</span></li>
+                        <li class="flex gap-2"><span class="text-[#39FF14]">>></span> <span class="type-trigger">Cabling: Proficient in structured cabling and troubleshooting of physical connectivity.</span></li>
+                    </ul>
+                </div>
+
+                <!-- System Administration -->
+                <div class="bg-[#161b22] p-6 border border-gray-800 terminal-glow group registry-card interactive-card theme-blue stagger-item">
+                    <div class="corner-accents">
+                        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                    </div>
+                    <div class="flex justify-between items-start mb-6 relative z-10">
+                        <div class="p-2 bg-blue-500/10 text-blue-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <span class="mono text-[10px] text-gray-600 uppercase">MOD_SYS_ADMIN</span>
+                    </div>
+                    <h4 class="mono text-white text-sm mb-4 font-bold uppercase tracking-widest relative z-10 transition-all duration-300">System Administration</h4>
+                    <div class="space-y-2 mb-6 relative z-10">
+                        <div class="flex justify-between text-[10px] mono mb-1">
+                            <span>OS_SERVER_DOMAIN</span>
+                            <span class="text-blue-400">98%</span>
+                        </div>
+                        <div class="h-1 bg-gray-800 w-full overflow-hidden">
+                            <div class="h-full bg-blue-400 skill-bar-inner" data-percent="98%"></div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-[11px] text-gray-500 mono relative z-10">
+                        <li class="flex gap-2"><span class="text-blue-400">>></span> <span class="type-trigger">Operating Systems: Installation and administration of Windows Server editions (2003-2019) and Windows client OS (7-11).</span></li>
+                        <li class="flex gap-2"><span class="text-blue-400">>></span> <span class="type-trigger">Active Directory: Setting up and managing AD across multiple Server versions, including user/group and GPO administration.</span></li>
+                        <li class="flex gap-2"><span class="text-blue-400">>></span> <span class="type-trigger">Linux: Foundational knowledge of basic Linux commands for system interaction and troubleshooting.</span></li>
+                        <li class="flex gap-2"><span class="text-blue-400">>></span> <span class="type-trigger">Hardware Management: Advanced skills in building, configuring, and troubleshooting PC and server hardware.</span></li>
+                    </ul>
+                </div>
+
+                <!-- AI -->
+                <div class="bg-[#161b22] p-6 border border-gray-800 terminal-glow group registry-card interactive-card theme-yellow stagger-item">
+                    <div class="corner-accents">
+                        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                    </div>
+                    <div class="flex justify-between items-start mb-6 relative z-10">
+                        <div class="p-2 bg-yellow-500/10 text-yellow-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <span class="mono text-[10px] text-gray-600 uppercase">MOD_AI</span>
+                    </div>
+                    <h4 class="mono text-white text-sm mb-4 font-bold uppercase tracking-widest relative z-10 transition-all duration-300">AI & Automation</h4>
+                    <div class="space-y-2 mb-6 relative z-10">
+                        <div class="flex justify-between text-[10px] mono mb-1">
+                            <span>PROMPT_ENG</span>
+                            <span class="text-yellow-500">90%</span>
+                        </div>
+                        <div class="h-1 bg-gray-800 w-full overflow-hidden">
+                            <div class="h-full bg-yellow-500 skill-bar-inner" data-percent="90%"></div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-[11px] text-gray-500 mono relative z-10">
+                        <li class="flex gap-2"><span class="text-yellow-500">>></span> <span class="type-trigger">Generative AI integration & LLM optimization for IT workflows.</span></li>
+                        <li class="flex gap-2"><span class="text-yellow-500">>></span> <span class="type-trigger">Advanced Prompt Engineering for system documentation and automation.</span></li>
+                        <li class="flex gap-2"><span class="text-yellow-500">>></span> <span class="type-trigger">Deployment of neural logic layers for intelligent infrastructure monitoring.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Enterprise Applications -->
+                <div class="bg-[#161b22] p-6 border border-gray-800 terminal-glow group registry-card interactive-card theme-purple stagger-item">
+                    <div class="corner-accents">
+                        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                    </div>
+                    <div class="flex justify-between items-start mb-6 relative z-10">
+                        <div class="p-2 bg-purple-500/10 text-purple-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <span class="mono text-[10px] text-gray-600 uppercase">MOD_ENT_APP</span>
+                    </div>
+                    <h4 class="mono text-white text-sm mb-4 font-bold uppercase tracking-widest relative z-10 transition-all duration-300">Enterprise Apps & Systems</h4>
+                    <div class="space-y-2 mb-6 relative z-10">
+                        <div class="flex justify-between text-[10px] mono mb-1">
+                            <span>ERP_UCC_SECURITY</span>
+                            <span class="text-purple-400">92%</span>
+                        </div>
+                        <div class="h-1 bg-gray-800 w-full overflow-hidden">
+                            <div class="h-full bg-purple-500 skill-bar-inner" data-percent="92%"></div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-[11px] text-gray-500 mono relative z-10">
+                        <li class="flex gap-2"><span class="text-purple-400">>></span> <span class="type-trigger">ERP: Served as an ERP coordinator, assisting with system implementation and support.</span></li>
+                        <li class="flex gap-2"><span class="text-purple-400">>></span> <span class="type-trigger">Unified Communications: Installation, configuration, and troubleshooting of iOT devices and IP phones.</span></li>
+                        <li class="flex gap-2"><span class="text-purple-400">>></span> <span class="type-trigger">Physical Security: Installation of CCTV and Access Control Devices across sites.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Specialized Hardware -->
+                <div class="bg-[#161b22] p-6 border border-gray-800 terminal-glow group registry-card interactive-card theme-orange stagger-item">
+                    <div class="corner-accents">
+                        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                    </div>
+                    <div class="flex justify-between items-start mb-6 relative z-10">
+                        <div class="p-2 bg-orange-500/10 text-orange-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        </div>
+                        <span class="mono text-[10px] text-gray-600 uppercase">MOD_HARDWARE</span>
+                    </div>
+                    <h4 class="mono text-white text-sm mb-4 font-bold uppercase tracking-widest relative z-10 transition-all duration-300">Specialized Hardware</h4>
+                    <div class="space-y-2 mb-6 relative z-10">
+                        <div class="flex justify-between text-[10px] mono mb-1">
+                            <span>INDUSTRIAL_SURVEILLANCE</span>
+                            <span class="text-orange-400">95%</span>
+                        </div>
+                        <div class="h-1 bg-gray-800 w-full overflow-hidden">
+                            <div class="h-full bg-orange-500 skill-bar-inner" data-percent="95%"></div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-[11px] text-gray-500 mono relative z-10">
+                        <li class="flex gap-2"><span class="text-orange-400">>></span> <span class="type-trigger">Industrial Surveillance: Proficient in deployment of high-temp and industrial-grade cameras in hazardous zones.</span></li>
+                        <li class="flex gap-2"><span class="text-orange-400">>></span> <span class="type-trigger">Extreme Heat Environments: Experienced in configuring cameras for glass furnace areas and high-temp sites.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Storage Solutions -->
+                <div class="bg-[#161b22] p-6 border border-gray-800 terminal-glow group registry-card interactive-card theme-cyan stagger-item">
+                    <div class="corner-accents">
+                        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                    </div>
+                    <div class="flex justify-between items-start mb-6 relative z-10">
+                        <div class="p-2 bg-cyan-500/10 text-cyan-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </div>
+                        <span class="mono text-[10px] text-gray-600 uppercase">MOD_STORAGE</span>
+                    </div>
+                    <h4 class="mono text-white text-sm mb-4 font-bold uppercase tracking-widest relative z-10 transition-all duration-300">Storage Solutions</h4>
+                    <div class="space-y-2 mb-6 relative z-10">
+                        <div class="flex justify-between text-[10px] mono mb-1">
+                            <span>DATA_INTEGRITY_NAS</span>
+                            <span class="text-cyan-400">94%</span>
+                        </div>
+                        <div class="h-1 bg-gray-800 w-full overflow-hidden">
+                            <div class="h-full bg-cyan-400 skill-bar-inner" data-percent="94%"></div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-[11px] text-gray-500 mono relative z-10">
+                        <li class="flex gap-2"><span class="text-cyan-400">>></span> <span class="type-trigger">NAS Architecture: Deployed and managed NAS systems providing secure backups and central data storage.</span></li>
+                        <li class="flex gap-2"><span class="text-cyan-400">>></span> <span class="type-trigger">Accessibility: Enabled storage access via mobile apps and web interfaces with strict permission protocols.</span></li>
+                        <li class="flex gap-2"><span class="text-cyan-400">>></span> <span class="type-trigger">Admin: Expert in user creation, group permissions, and lifecycle management for enterprise storage.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credentials Vault -->
+    <section id="credentials" class="py-24 bg-[#090c10]/50 module-section">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="flex items-center gap-4 mb-16">
+                <h3 class="mono text-[#39FF14] text-3xl uppercase font-bold tracking-tighter header-font type-trigger min-h-[1.2em]">03.Credentials_Vault</h3>
+                <div class="h-[1px] flex-grow bg-gray-800/50"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Certifications Card -->
+                <div class="p-8 border border-gray-800 bg-[#161b22]/50 terminal-glow vault-card interactive-card stagger-item">
+                    <div class="corner-accents">
+                        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                    </div>
+                    <p class="mono text-[10px] text-blue-400 mb-2 uppercase tracking-widest relative z-10">// MODULE: INFRA_CORE</p>
+                    <h4 class="mono text-white text-sm mb-6 font-bold uppercase tracking-widest transition-all relative z-10">Certifications Masteries</h4>
+                    
+                    <div class="space-y-6 relative z-10">
+                        <div>
+                            <p class="text-[9px] text-gray-500 mono mb-2 tracking-widest uppercase">// NETWORK & SYSTEMS</p>
+                            <ul class="space-y-3 text-xs text-gray-400 mono">
+                                <li class="flex gap-3"><span class="text-[#39FF14] font-bold">[✔]</span> <span class="type-trigger">CCNA: Cisco Professional</span></li>
+                                <li class="flex gap-3"><span class="text-[#39FF14] font-bold">[✔]</span> <span class="type-trigger">MCSE: Microsoft Engineer</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-[9px] text-gray-500 mono mb-2 tracking-widest uppercase">// CLOUD & SECURITY</p>
+                            <ul class="space-y-3 text-xs text-gray-400 mono">
+                                <li class="flex gap-3">
+                                    <span class="text-[#39FF14] font-bold">[✔]</span> 
+                                    <a href="https://courses.edx.org/certificates/296d6172f35a4a9b813702628c368da0" target="_blank" class="hover:text-yellow-500 underline decoration-dotted transition-colors">
+                                        <span class="type-trigger">AWS Cloud Technical Essentials</span>
+                                    </a>
+                                </li>
+                                <li class="flex gap-3"><span class="text-yellow-500 animate-pulse">[>]</span> <span class="type-trigger">CS50's Intro to Cybersecurity [IN_PROGRESS]</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emerging AI Card -->
+                <div class="p-8 border border-gray-800 bg-[#161b22]/50 terminal-glow vault-card interactive-card theme-yellow stagger-item">
+                    <div class="corner-accents">
+                        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                    </div>
+                    <p class="mono text-[10px] text-yellow-500 mb-2 uppercase tracking-widest relative z-10">// MODULE: NEURAL_CORE</p>
+                    <h4 class="mono text-white text-sm mb-6 font-bold uppercase tracking-widest transition-all relative z-10">Emerging AI</h4>
+                    
+                    <div class="relative z-10">
+                        <p class="text-[9px] text-gray-500 mono mb-2 tracking-widest uppercase">// GENERATIVE AI</p>
+                        <ul class="space-y-4 text-xs text-gray-400 mono">
+                            <li class="flex gap-3">
+                                <span class="text-yellow-500 font-bold">[✔]</span> 
+                                <a href="https://courses.edx.org/certificates/0aba0fa4aeeb4b6fa7280267c24a9155" target="_blank" class="hover:text-[#39FF14] underline decoration-dotted transition-colors">
+                                    <span class="type-trigger">IBM AI0121EN: Introduction to Generative AI</span>
+                                </a>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-yellow-500 font-bold">[✔]</span> 
+                                <a href="https://courses.edx.org/certificates/bfc10e39385d40d48c9ed4f2c23c33f4" target="_blank" class="hover:text-[#39FF14] underline decoration-dotted transition-colors">
+                                    <span class="type-trigger">IBM AI0131EN: Introduction to Prompt Engineering</span>
+                                </a>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-yellow-500 font-bold">[✔]</span> 
+                                <a href="https://courses.edx.org/certificates/57409fce394942d4af2a9418d5feb94d" target="_blank" class="hover:text-[#39FF14] underline decoration-dotted transition-colors">
+                                    <span class="type-trigger">IBM AI0141EN: Models and Platforms for Generative AI</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core_Attributes Section -->
+    <section id="attributes" class="py-24 bg-[#0d1117] border-t border-gray-800/30 module-section">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="fade-in-section visible">
+                <div class="flex items-center gap-4 mb-16">
+                    <h3 class="mono text-[#39FF14] text-3xl uppercase font-bold tracking-tighter header-font type-trigger min-h-[1.2em]">04.Core_Attributes</h3>
+                    <div class="h-[1px] flex-grow bg-gray-800/50"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- AD & GPO -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Active Directory (AD) & Group Policy (GPO) Management.</span>
+                    </div>
+                    <!-- Windows Server -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Windows Server Administration (2003, 2008, 2012, 2019).</span>
+                    </div>
+                    <!-- Windows Client -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Windows Client OS Administration (7, 8, 10, 11).</span>
+                    </div>
+                    <!-- DNS/DHCP -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">DNS, DHCP, and File Server Configuration.</span>
+                    </div>
+                    <!-- Network Management -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Router, Switch, and Firewall Management (Cisco, Dell SonicWALL, Unifi).</span>
+                    </div>
+                    <!-- Troubleshooting -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">LAN/WAN Troubleshooting and Remote Desktop Support.</span>
+                    </div>
+                    <!-- Hardware Building -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">PC & Server Hardware Building, Configuration, and Troubleshooting.</span>
+                    </div>
+                    <!-- App Software -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Application Software Installation and Repair.</span>
+                    </div>
+                    <!-- VoIP -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">VoIP and IP Phone System Administration.</span>
+                    </div>
+                    <!-- CCTV / Biometric -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">CCTV, Access Control, and Biometric System Installation.</span>
+                    </div>
+                    <!-- Cabling -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Structured Cabling and Network Cable Crimping.</span>
+                    </div>
+                    <!-- ERP -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">ERP Coordination and SAP B-One Administration.</span>
+                    </div>
+                    <!-- Linux -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Basic Linux Command Line Knowledge.</span>
+                    </div>
+                    <!-- NAS -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">NAS Deployment and Management for backup and user data access.</span>
+                    </div>
+                    <!-- Industrial CCTV -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Installation of high-temperature CCTV cameras in industrial environments.</span>
+                    </div>
+                    <!-- Warehouse CCTV -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Installation and maintenance of warehouse CCTV systems.</span>
+                    </div>
+                    <!-- SQL -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">MS SQL Server 2008, 2014.</span>
+                    </div>
+                    <!-- Office -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">MS Office 2019, 2021, Office 365.</span>
+                    </div>
+                    <!-- Unifi -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Unifi Controller.</span>
+                    </div>
+                    <!-- AutoCAD -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19 9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">AUTOCAD.</span>
+                    </div>
+                    <!-- Primavera -->
+                    <div class="p-4 border border-gray-800 bg-[#161b22]/30 flex items-start gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] mt-1 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <span class="mono text-[11px] text-gray-400 type-trigger relative z-10 transition-all duration-300">Primavera.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neural_Load Section -->
+    <section id="neural-load" class="py-24 bg-[#090c10] module-section">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="fade-in-section visible">
+                <div class="flex items-center gap-4 mb-16">
+                    <h3 class="mono text-[#39FF14] text-3xl uppercase font-bold tracking-tighter header-font type-trigger min-h-[1.2em]">05.Neural_Load</h3>
+                    <div class="h-[1px] flex-grow bg-gray-800/50"></div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] mono text-gray-500 uppercase tracking-widest">
+                    <!-- Reading History -->
+                    <div class="bg-[#0d1117] p-6 border border-gray-800 text-center group flex flex-col items-center gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                        </div>
+                        <span class="type-trigger relative z-10 transition-all duration-300">Reading History</span>
+                    </div>
+                    <!-- Travelling -->
+                    <div class="bg-[#0d1117] p-6 border border-gray-800 text-center group flex flex-col items-center gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                        </div>
+                        <span class="type-trigger relative z-10 transition-all duration-300">Travelling</span>
+                    </div>
+                    <!-- Listening to Music -->
+                    <div class="bg-[#0d1117] p-6 border border-gray-800 text-center group flex flex-col items-center gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                        </div>
+                        <span class="type-trigger relative z-10 transition-all duration-300">Listening to music</span>
+                    </div>
+                    <!-- Solving Puzzles -->
+                    <div class="bg-[#0d1117] p-6 border border-gray-800 text-center group flex flex-col items-center gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.439 7.85c0-1.102-.621-2.135-1.589-2.607-1.031-.502-2.39-.443-3.298.393l-1.2 1.107c-.443.408-1.127.408-1.57 0l-1.2-1.107c-.908-.836-2.267-.895-3.298-.393-.968.472-1.589 1.505-1.589 2.607v1.2c0 .443-.361.804-.804.804H3.684c-1.102 0-2.135.621-2.607 1.589-.502 1.031-.443 2.39.393 3.298l1.107 1.2c.408.443.408 1.127 0 1.57l-1.107 1.2c-.836.908-.895 2.267-.393 3.298.472.968 1.505 1.589 2.607 1.589h1.204c.443 0 .804.361.804.804v1.204c0 1.102.621 2.135 1.589 2.607 1.031.502 2.39.443 3.298-.393l1.2-1.107c.443-.408 1.127-.408 1.57 0l1.2 1.107c.908.836 2.267.895 3.298.393.968-.472 1.589-1.505 1.589-2.607v-1.204c0-.443.361-.804.804-.804h1.204c1.102 0 2.135-.621 2.607-1.589.502-1.031.443-2.39-.393-3.298l-1.107-1.2c-.408-.443-.408-1.127 0-1.57l1.107-1.2c.836-.908.895-2.267.393-3.298-.472-.968-1.505-1.589-2.607-1.589h-1.204c-.443 0-.804-.361-.804-.804V7.85z"/></svg>
+                        </div>
+                        <span class="type-trigger relative z-10 transition-all duration-300">Solving Puzzles</span>
+                    </div>
+                    <!-- Hiking -->
+                    <div class="bg-[#0d1117] p-6 border border-gray-800 text-center group flex flex-col items-center gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+                        </div>
+                        <span class="type-trigger relative z-10 transition-all duration-300">Hiking</span>
+                    </div>
+                    <!-- Badminton -->
+                    <div class="bg-[#0d1117] p-6 border border-gray-800 text-center group flex flex-col items-center gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m14.5 9-5 5"/><path d="M12 8v1"/><path d="M11 9h1"/><path d="M13 9h1"/><path d="M12 10v1"/></svg>
+                        </div>
+                        <span class="type-trigger relative z-10 transition-all duration-300">Badminton</span>
+                    </div>
+                    <!-- Cricket -->
+                    <div class="bg-[#0d1117] p-6 border border-gray-800 text-center group flex flex-col items-center gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="6" r="3"/><path d="M3 21l9-9"/><path d="M5 21l9-9"/><path d="M3 19l9-9"/></svg>
+                        </div>
+                        <span class="type-trigger relative z-10 transition-all duration-300">Cricket</span>
+                    </div>
+                    <!-- Regular Exercise -->
+                    <div class="bg-[#0d1117] p-6 border border-gray-800 text-center group flex flex-col items-center gap-4 interactive-card stagger-item tech-drop">
+                        <div class="corner-accents">
+                            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2" style="border-color: var(--card-color);"></div>
+                            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2" style="border-color: var(--card-color);"></div>
+                        </div>
+                        <div class="text-[#39FF14] relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7.5h12"/><path d="M12 3v18"/><path d="M21 12H3"/><circle cx="12" cy="12" r="9"/></svg>
+                        </div>
+                        <span class="type-trigger relative z-10 transition-all duration-300">Regular Exercise</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Digital Twin Section -->
+    <section id="digital-twin" class="py-24 bg-[#090c10]/50 relative module-section">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="fade-in-section visible">
+                <div class="flex items-center gap-4 mb-16">
+                    <h3 class="mono text-[#39FF14] text-3xl uppercase font-bold tracking-tighter header-font type-trigger min-h-[1.2em]">06.Digital_Twin</h3>
+                    <div class="h-[1px] flex-grow bg-gray-800/50"></div>
+                </div>
+
+                <div class="border border-[#39FF14]/30 bg-[#0d1117] terminal-glow rounded-sm overflow-hidden flex flex-col h-[450px] stagger-item">
+                    <!-- Header -->
+                    <div class="bg-[#161b22] px-4 py-3 border-b border-[#39FF14]/20 flex justify-between items-center">
+                        <div class="mono text-[10px] text-[#39FF14] flex items-center gap-2">
+                            <span class="w-2 h-2 bg-[#39FF14] rounded-full animate-pulse shadow-[0_0_8px_#39FF14]"></span>
+                            MUSIF_AI_MODEL_v1.0
+                        </div>
+                        <div class="text-gray-500 text-[10px] mono tracking-widest uppercase">STATUS: ONLINE_READY</div>
+                    </div>
+                    
+                    <!-- Chat Area -->
+                    <div id="chat-output" class="flex-grow p-6 overflow-y-auto custom-scrollbar mono text-xs md:text-sm space-y-4 text-gray-300">
+                        <div class="text-[#39FF14] leading-relaxed">> SYSTEM: Digital Twin initialized.<br>> I am a simulated AI trained on Mohammed Musif's neural data, system logs, and skill registries.<br>> Type your query below. (e.g., "experience", "skills", "education", "contact")</div>
+                    </div>
+                    
+                    <!-- Input Area -->
+                    <div class="bg-[#161b22] p-4 border-t border-[#39FF14]/20 flex gap-3 items-center">
+                        <span class="text-[#39FF14] mono font-bold">></span>
+                        <input type="text" id="chat-input" class="w-full bg-transparent border-none outline-none text-[#39FF14] mono text-sm placeholder-gray-600 focus:ring-0" placeholder="Ask me anything..." onkeypress="handleChat(event)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 no-print relative module-section">
+        <div class="container mx-auto px-6 max-w-3xl text-center">
+            <div class="inline-block w-full p-12 border border-[#39FF14]/20 terminal-glow bg-[#161b22]/80 relative overflow-hidden backdrop-blur-xl stagger-item">
+                <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[#39FF14]"></div>
+                <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#39FF14]"></div>
+                
+                <h3 class="mono text-[#39FF14] text-4xl mb-8 tracking-tighter font-black uppercase header-font type-trigger min-h-[1.2em]">Ping_Me</h3>
+                <div class="space-y-6 mono">
+                    <a href="mailto:musi2sid@gmail.com" class="text-xl md:text-3xl text-[#39FF14] hover:text-white transition-all block break-all font-bold tracking-tighter">
+                        musi2sid@gmail.com
+                    </a>
+                    <div class="flex flex-col md:flex-row justify-center gap-8 pt-8 text-white/60 text-sm">
+                        <a href="tel:+971528605527" class="hover:text-[#39FF14] transition-colors flex items-center justify-center gap-2">
+                            <span class="text-[10px] bg-white/10 px-2 py-0.5 rounded">PRM</span> +971 52 860 5527
+                        </a>
+                        <a href="tel:+971502155105" class="hover:text-[#39FF14] transition-colors flex items-center justify-center gap-2">
+                            <span class="text-[10px] bg-white/10 px-2 py-0.5 rounded">ALT</span> +971 50 215 5105
+                        </a>
+                        <a href="https://www.linkedin.com/in/mohammad-musif-90883231/" target="_blank" class="hover:text-[#39FF14] transition-colors flex items-center justify-center gap-2">
+                            <span class="text-[10px] bg-white/10 px-2 py-0.5 rounded">LKD</span> LinkedIn Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="p-12 text-center text-[10px] text-gray-700 mono uppercase tracking-[0.4em] border-t border-gray-900 no-print">
+        MUSIF_OS // v2.5.0 // EST_2011 // <span id="clock" class="text-[#39FF14]/50">00:00:00</span>
+    </footer>
+
+    <script>
+        function typeEffect(element, text, speed = 30, callback = null) {
+            element.innerText = '';
+            element.classList.add('typing');
+            let i = 0;
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    element.innerText += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                    element.classList.remove('typing');
+                    if (callback) callback();
+                }
+            }, speed);
+        }
+
+        // Specialized type effect to handle HTML tags securely
+        function typeHTML(element, htmlString, speed = 10, callback = null) {
+            element.innerHTML = '';
+            element.classList.add('typing');
+            let i = 0;
+            let isTag = false;
+            let text = '';
+
+            const timer = setInterval(() => {
+                if (i < htmlString.length) {
+                    if (htmlString.charAt(i) === '<') isTag = true;
+                    text += htmlString.charAt(i);
+                    if (htmlString.charAt(i) === '>') isTag = false;
+                    
+                    element.innerHTML = text;
+                    i++;
+
+                    // Instantly append remaining part of an HTML tag without delay
+                    while (isTag && i < htmlString.length) {
+                        text += htmlString.charAt(i);
+                        if (htmlString.charAt(i) === '>') isTag = false;
+                        i++;
+                        element.innerHTML = text;
+                    }
+                } else {
+                    clearInterval(timer);
+                    element.classList.remove('typing');
+                    if (callback) callback();
+                }
+            }, speed);
+        }
+
+        // New function for sequential hero tile loading and typing
+        function revealHeroStats(container) {
+            if (!container) return;
+            const items = container.querySelectorAll('.stagger-item');
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('loaded'); // Pop in the tile
+                    setTimeout(() => {
+                        const valEl = item.querySelector('.hero-tile-value');
+                        if (valEl) {
+                            const text = valEl.getAttribute('data-text');
+                            typeEffect(valEl, text, 30); // Type out the value inside
+                        }
+                    }, 250); // Pause briefly after card fades in
+                }, index * 250); // Stagger interval between each card
+            });
+        }
+
+        // Observers for Viewport-based animations
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    sectionObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.05 });
+
+        let itemDelayCounter = 0;
+        let itemDelayResetTimer = null;
+
+        const itemObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const item = entry.target;
+
+                    // Handle H3 Titles independently
+                    if (item.tagName.toLowerCase() === 'h3' && item.classList.contains('type-trigger')) {
+                        if (!item.dataset.typed) {
+                            item.dataset.typed = "true";
+                            typeEffect(item, item.dataset.originalText, 40);
+                        }
+                        itemObserver.unobserve(item);
+                        return; 
+                    }
+
+                    // Handle standard stagger items (tiles, logs)
+                    const delay = itemDelayCounter * 100; // dynamic stagger for items loading at exact same time
+                    itemDelayCounter++;
+                    
+                    clearTimeout(itemDelayResetTimer);
+                    itemDelayResetTimer = setTimeout(() => { itemDelayCounter = 0; }, 100);
+
+                    setTimeout(() => {
+                        item.classList.add('loaded');
+
+                        if (item.classList.contains('tech-drop')) {
+                            setTimeout(() => item.classList.remove('tech-drop'), 800);
+                        }
+
+                        // Load skill bars inside this item
+                        item.querySelectorAll('.skill-bar-inner').forEach(bar => {
+                            if (!bar.dataset.loaded) {
+                                bar.style.width = bar.dataset.percent;
+                                bar.dataset.loaded = "true";
+                            }
+                        });
+
+                        // Load type triggers inside this item
+                        item.querySelectorAll('.type-trigger:not(h3)').forEach((trigger, index) => {
+                            if (!trigger.dataset.typed) {
+                                const originalText = trigger.dataset.originalText || trigger.innerText;
+                                trigger.innerText = '';
+                                trigger.dataset.typed = "true";
+                                setTimeout(() => {
+                                    typeEffect(trigger, originalText, 15);
+                                }, index * 25); 
+                            }
+                        });
+
+                    }, delay);
+
+                    itemObserver.unobserve(item);
+                }
+            });
+        }, { threshold: 0.1 }); // Triggers individually when 10% in view
+
+        function initHeroSequence() {
+            const prefix = document.getElementById('typewriter-prefix');
+            const nameTarget = document.getElementById('hero-name');
+            const titleTarget = document.getElementById('hero-title');
+            const bioTarget = document.getElementById('hero-bio');
+            const statsGrid = document.getElementById('hero-stats');
+            
+            const originalPrefix = prefix.innerText;
+            const nameText = "Mohammed Musif";
+            const titleText = "Senior IT Engineer | <span class=\"text-white/80\">CLOUD, CYBERSECURITY & AI ENTHUSIAST</span>";
+            const bioText = `A seasoned technology professional with <span class="text-white border-b border-[#39FF14]">14+ years of expertise</span> in orchestrating complex IT ecosystems. Expert in balancing mission-critical infrastructure with emerging AI paradigms.`;
+            
+            prefix.innerText = '';
+            
+            // Prepare Biometric Scan lines for sequential typing
+            const bioLines = document.querySelectorAll('.bio-scan-line');
+            const bioLineTexts = Array.from(bioLines).map(line => {
+                const text = line.innerHTML;
+                line.innerHTML = '';
+                return text;
+            });
+
+            function typeBioScanLines(index = 0) {
+                if (index < bioLines.length) {
+                    typeHTML(bioLines[index], bioLineTexts[index], 15, () => {
+                        typeBioScanLines(index + 1);
+                    });
+                }
+            }
+
+            // Step 1: Scan Prefix
+            typeEffect(prefix, originalPrefix, 40, () => {
+                // Trigger biometric card typing concurrently
+                typeBioScanLines();
+                
+                // Step 2: Name Typing
+                setTimeout(() => {
+                    typeEffect(nameTarget, nameText, 50, () => {
+                        // Step 3: Title Typing (HTML aware)
+                        setTimeout(() => {
+                            typeHTML(titleTarget, titleText, 20, () => {
+                                // Step 4: Bio Typing (HTML aware)
+                                setTimeout(() => {
+                                    typeHTML(bioTarget, bioText, 10, () => {
+                                        // Step 5: Fade in Stats with dedicated sequence
+                                        revealHeroStats(statsGrid);
+                                    });
+                                }, 200);
+                            });
+                        }, 200);
+                    });
+                }, 300);
+            });
+        }
+
+        function updateClock() {
+            const clockEl = document.getElementById('clock');
+            if (!clockEl) return;
+            const now = new Date();
+            clockEl.innerText = now.getHours().toString().padStart(2, '0') + ":" + 
+                                now.getMinutes().toString().padStart(2, '0') + ":" + 
+                                now.getSeconds().toString().padStart(2, '0');
+        }
+
+        // --- DIGITAL TWIN AI LOGIC ---
+        const aiKnowledgeBase = {
+            "experience": "I have over 14 years of core runtime experience. Currently, I am a Sr. IT Engineer at MAPCO LLC in Abu Dhabi (2016-Present). Previously, I served as a System Administrator at SFJ Technologies (2012-2015) and a Network Support Engineer at Safas Internetworking (2011-2012).",
+            "skills": "My skill registry includes Network Engineering (Cisco, Unifi, SonicWall), System Administration (Windows Server, AD, GPO), Enterprise Apps (ERP, IP Phones), Specialized Hardware (Industrial CCTV), and emerging Generative AI technologies.",
+            "education": "My academic dossier shows a Bachelor of Engineering (B.E.) in Computer Science.",
+            "location": "My current primary node is located in Abu Dhabi, UAE.",
+            "contact": "You can establish a direct connection with my physical proxy via email at musi2sid@gmail.com.",
+            "certifications": "My credentials vault holds CCNA and MCSE masteries, along with recent IBM and AWS certifications. Would you like to view my certificates? (Type 'yes' or 'view')",
+            "certificate": "You can verify my credentials here:<br><br>> <a href='https://courses.edx.org/certificates/296d6172f35a4a9b813702628c368da0' target='_blank' class='text-[#39FF14] underline hover:text-white'>AWS Cloud Technical Essentials</a><br>> <a href='https://courses.edx.org/certificates/0aba0fa4aeeb4b6fa7280267c24a9155' target='_blank' class='text-[#39FF14] underline hover:text-white'>IBM AI0121EN: Introduction to Generative AI</a><br>> <a href='https://courses.edx.org/certificates/bfc10e39385d40d48c9ed4f2c23c33f4' target='_blank' class='text-[#39FF14] underline hover:text-white'>IBM AI0131EN: Introduction to Prompt Engineering</a><br>> <a href='https://courses.edx.org/certificates/57409fce394942d4af2a9418d5feb94d' target='_blank' class='text-[#39FF14] underline hover:text-white'>IBM AI0141EN: Models and Platforms for Generative AI</a>",
+            "yes": "You can verify my credentials here:<br><br>> <a href='https://courses.edx.org/certificates/296d6172f35a4a9b813702628c368da0' target='_blank' class='text-[#39FF14] underline hover:text-white'>AWS Cloud Technical Essentials</a><br>> <a href='https://courses.edx.org/certificates/0aba0fa4aeeb4b6fa7280267c24a9155' target='_blank' class='text-[#39FF14] underline hover:text-white'>IBM AI0121EN: Introduction to Generative AI</a><br>> <a href='https://courses.edx.org/certificates/bfc10e39385d40d48c9ed4f2c23c33f4' target='_blank' class='text-[#39FF14] underline hover:text-white'>IBM AI0131EN: Introduction to Prompt Engineering</a><br>> <a href='https://courses.edx.org/certificates/57409fce394942d4af2a9418d5feb94d' target='_blank' class='text-[#39FF14] underline hover:text-white'>IBM AI0141EN: Models and Platforms for Generative AI</a>",
+            "view": "You can verify my credentials here:<br><br>> <a href='https://courses.edx.org/certificates/296d6172f35a4a9b813702628c368da0' target='_blank' class='text-[#39FF14] underline hover:text-white'>AWS Cloud Technical Essentials</a><br>> <a href='https://courses.edx.org/certificates/0aba0fa4aeeb4b6fa7280267c24a9155' target='_blank' class='text-[#39FF14] underline hover:text-white'>IBM AI0121EN: Introduction to Generative AI</a><br>> <a href='https://courses.edx.org/certificates/bfc10e39385d40d48c9ed4f2c23c33f4' target='_blank' class='text-[#39FF14] underline hover:text-white'>IBM AI0131EN: Introduction to Prompt Engineering</a><br>> <a href='https://courses.edx.org/certificates/57409fce394942d4af2a9418d5feb94d' target='_blank' class='text-[#39FF14] underline hover:text-white'>IBM AI0141EN: Models and Platforms for Generative AI</a>",
+            "cv": "You can download and parse my complete CV file here: <a href='Mohammed Musif - Senior IT Engineer.pdf' target='_blank' class='text-[#39FF14] underline underline-offset-2 hover:text-white'>DOWNLOAD_CV_v2.5.PDF</a>. It contains the full scope of my 14+ years of IT orchestration spanning UAE and India nodes.",
+            "resume": "You can download and parse my complete CV file here: <a href='Mohammed Musif - Senior IT Engineer.pdf' target='_blank' class='text-[#39FF14] underline underline-offset-2 hover:text-white'>DOWNLOAD_CV_v2.5.PDF</a>. It contains the full scope of my 14+ years of IT orchestration spanning UAE and India nodes.",
+            "hello": "Greetings, user. I am the digital construct of Mohammed Musif. State your query.",
+            "hi": "Greetings, user. I am the digital construct of Mohammed Musif. State your query.",
+            "who are you": "I am a simulated AI instance, designed to parse and provide information regarding Mohammed Musif's professional dossier.",
+            "hobbies": "In downtime, my biological counterpart allocates neural load to reading, travelling, listening to music, solving puzzles, hiking, badminton, and cricket.",
+            "ai": "I have recently integrated modules regarding Generative AI, including Prompt Engineering and LLM optimization.",
+            "cctv": "I possess specialized experience in deploying and managing industrial surveillance, including high-temperature CCTV cameras in hazardous zones like glass furnaces.",
+            "server": "I am highly proficient in Windows Server Administration (2003 through 2019), including deep management of Active Directory and Group Policies.",
+            "default": "QUERY_UNRECOGNIZED. My dataset is limited to professional parameters. Try querying: 'experience', 'skills', 'education', 'certifications', 'cv', or 'contact'."
+        };
+
+        function processAIQuery(query) {
+            const q = query.toLowerCase();
+            for (const key in aiKnowledgeBase) {
+                if (key !== "default" && q.includes(key)) {
+                    return aiKnowledgeBase[key];
+                }
+            }
+            return aiKnowledgeBase.default;
+        }
+
+        let isTypingAI = false;
+
+        function handleChat(e) {
+            if (e.key === 'Enter') {
+                if (isTypingAI) return; // Prevent input while AI is responding
+                
+                const inputEl = document.getElementById('chat-input');
+                const query = inputEl.value.trim();
+                if (!query) return;
+
+                const chatOutput = document.getElementById('chat-output');
+                
+                // Append User Query
+                const userDiv = document.createElement('div');
+                userDiv.className = 'text-blue-400 mt-4 mb-1';
+                userDiv.innerHTML = `> USER: <span class="text-gray-300">${query}</span>`;
+                chatOutput.appendChild(userDiv);
+
+                inputEl.value = '';
+                isTypingAI = true;
+                
+                // Process Response
+                const responseText = processAIQuery(query);
+                
+                // Create AI Response Container
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'text-[#39FF14] leading-relaxed';
+                chatOutput.appendChild(aiDiv);
+                
+                chatOutput.scrollTop = chatOutput.scrollHeight;
+
+                // Type response (Updated to typeHTML to render clickable CV links)
+                typeHTML(aiDiv, `> MUSIF_AI: ${responseText}`, 15, () => {
+                    isTypingAI = false;
+                    chatOutput.scrollTop = chatOutput.scrollHeight;
+                });
+            }
+        }
+
+        window.onload = () => {
+            initHeroSequence();
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // Pre-clear text to prevent visual flashes before animation triggers on scroll
+            document.querySelectorAll('.module-section h3.type-trigger').forEach(h3 => {
+                h3.dataset.originalText = h3.innerText;
+                h3.innerText = ''; 
+            });
+
+            document.querySelectorAll('.module-section .stagger-item .type-trigger:not(h3)').forEach(t => {
+                t.dataset.originalText = t.innerText;
+                t.innerText = '';
+            });
+            
+            // Register sections to be observed for loading background visibility
+            document.querySelectorAll('.module-section').forEach(el => sectionObserver.observe(el));
+
+            // Register individual items (MAPCO, SFJ, Skills, etc.) to trigger animations individually based on viewport scroll
+            document.querySelectorAll('.module-section .stagger-item, .module-section h3.type-trigger').forEach(el => itemObserver.observe(el));
+        };
+    </script>
+</body>
+</html>
